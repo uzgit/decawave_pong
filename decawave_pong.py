@@ -23,7 +23,7 @@ for parameter, value in arguments.items():
 print(f"Left paddle ID: {arguments['left']}, right paddle ID: {arguments['right']}")
 print(f"Connecting to MQTT server at {arguments['address']}:{arguments['port']}...")
 
-positions = [350, 350]
+positions = [0, 0]
 
 def constrain(value, minimum, maximum):
     
@@ -38,9 +38,16 @@ def constrain(value, minimum, maximum):
 
 def interpolate(value, min1, max1, min2, max2):
 
-    result = min2 + ( (max2-min2)*(value-min1)/(max1-min1) )
+    result = value - min1
+    result /= max1 - min1
+    result *= max2 - min2
+    result += min2
 
-    result = constrain(result, min2, max2)
+#    result = min2 + (max2 - min2) * (value - min1) / (max1 - min1)
+
+#    result = constrain(result, min2, max2)
+
+#    print(f"{value} in [{min1}, {max1}] going to {result} in [{min2}, {max2}]")
 
     return result
 
@@ -124,22 +131,18 @@ def on_connect(mqttc, obj, flags, rc):
 def on_message(mqttc, obj, msg):
     global positions
 
-#    print(msg.topic+" "+str(msg.qos)+" "+str(msg.payload), end=": ")
+    print(msg.topic+" "+str(msg.qos)+" "+str(msg.payload), end=": ")
 
     topic_name = msg.topic
-    
     position = eval(msg.payload)["position"][arguments["dimension"]]
 
-    position = interpolate( position, 0, 1.98, -100, 100 )
-
-    position = int(position)
+#    position = interpolate( position, 0, 1.98, -100, 100 )
+#    position = int(position)
 
     if( arguments["left"] in topic_name ):
         positions[0] = position
-#        print( "set left paddle x" )
     elif( arguments["right"] in topic_name ):
         positions[1] = position
-#        print( "set right paddle x" )
     else:
         print("I don't recognize this message!")
 
@@ -167,10 +170,18 @@ mqttc.loop_start()
 ################################################################
 while True:
 
-    print(f"left: {positions[0]}, right: {positions[1]}")
 
-    paddle_a.sety(positions[0])
-    paddle_b.sety(positions[1])
+    try:
+        int_position_a = interpolate( positions[0], 0, 2, -300, 300 )
+        int_position_b = interpolate( positions[1], 0, 2, -300, 300 )
+    except:
+        print("oops")
+
+#    print(f"left: {positions[0]}, right: {positions[1]}")
+#    print(f"left: {int_position_a}, right: {int_position_b}")
+
+    paddle_a.sety(int_position_a)
+    paddle_b.sety(int_position_b)
 
     screen.update()
 
