@@ -93,7 +93,7 @@ pen.color("white")
 pen.penup()
 pen.hideturtle()
 pen.goto(0, 260)
-pen.write("Player A: 0  Player B: 0", align="center", font=("Courier", 20, "normal"))
+#pen.write("Player A: 0  Player B: 0", align="center", font=("Courier", 20, "normal"))
 
 #def paddle_a_up():
 #    y = paddle_a.ycor()
@@ -202,11 +202,11 @@ while True:
     if (ball.xcor() < -340 and ball.xcor() > -350) and (paddle_a.ycor() + 50 > ball.ycor() > paddle_a.ycor() - 50):
         score_a += 1
         pen.clear()
-        pen.write("Player A: {} Player B: {}".format(score_a, score_b), align="center", font=("Courier", 20, "normal"))
+#        pen.write("Player A: {} Player B: {}".format(score_a, score_b), align="center", font=("Courier", 20, "normal"))
     if ball.xcor() > 380:
         score_a = 0
         pen.clear()
-        pen.write("Player A: {} Player B: {}".format(score_a, score_b), align="center", font=("Courier", 20, "normal"))
+#        pen.write("Player A: {} Player B: {}".format(score_a, score_b), align="center", font=("Courier", 20, "normal"))
         ball.goto(0, 0)
         ball.dx *= -1
 
@@ -214,11 +214,11 @@ while True:
     if (ball.xcor() > 340 and ball.xcor() < 350) and (paddle_b.ycor() + 50 > ball.ycor() > paddle_b.ycor() - 50):
         score_b += 1
         pen.clear()
-        pen.write("Player A: {} Player B: {}".format(score_a, score_b), align="center", font=("Courier", 20, "normal"))
+#        pen.write("Player A: {} Player B: {}".format(score_a, score_b), align="center", font=("Courier", 20, "normal"))
     if ball.xcor() < -380:
         score_b = 0
         pen.clear()
-        pen.write("Player A: {} Player B: {}".format(score_a, score_b), align="center", font=("Courier", 20, "normal"))
+#        pen.write("Player A: {} Player B: {}".format(score_a, score_b), align="center", font=("Courier", 20, "normal"))
         ball.goto(0, 0)
         ball.dx *= -1
 
