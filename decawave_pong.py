@@ -172,8 +172,8 @@ while True:
 
 
     try:
-        int_position_a = interpolate( positions[0], 0, 2, -300, 300 )
-        int_position_b = interpolate( positions[1], 0, 2, -300, 300 )
+        int_position_a = interpolate( positions[0], 0.5, 1.5, -300, 300 )
+        int_position_b = interpolate( positions[1], 0.5, 1.5, -300, 300 )
     except:
         print("oops")
 
